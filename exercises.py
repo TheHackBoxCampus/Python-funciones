@@ -1,47 +1,60 @@
-#Ejercicio 3
-# 3. En pocos días comienza la vuelta a España y la federación
-# colombiana de ciclismo, como incentivo ha determinado pagar
-# un valor adicional. El programa pedirá por teclado el sueldo
-# básico por kilometro recorrido, el número de kilómetros
-# recorridos durante toda la vuelta, numero de kilómetros
-# recorridos con la camiseta de líder.
-# Calcular el valor a pagar total, si se sabe que si recorre en la
-# bici más de 1800 kilómetros con la camiseta de líder, esos
-# kilómetros se consideran especiales y tendrán un recargo de
-# 25%.
-# El total de kilómetros por recorrer durante toda la vuelta serán
-# 3.277 kilómetros,el ganador de la vuelta a España recibirá 700
-# millones de pesos.
+#Ejercicio 4
+# 4. Una empresa tiene 500 almacenes. Cada almacén debe
+# reportar el nombre y 5 registros c/u, contiene el tipo de articulo
+# y el número de unidades vendidas de ese artículo.
 
-NFinalistas = int(input("ingrese el numero de finalistas: "))
-mensajes = ["finalista: ",  "Sueldo k: ", "#kilometros R en toda La V: ", "#kilometros R como Lider: "]
-w = len(mensajes)
-opcion=[]
-limite = 3177
-porcientoDemas = 1800
-finalistas={}
-m = 0
+# Haga un programa en Python para determinar cuál fue el
+# almacén que mas vendió, cual fue el articulo más vendido de
+# ese almacén y cual el más vendido en general.
 
-while m < NFinalistas:
-    for q in range(0, w):
-        name, sueldo, kilom, kilomLider=input(mensajes[q]),input(mensajes[q+1]),input(mensajes[q+2]),input(mensajes[q+3])
-        finalistas[name] = [int(sueldo), int(kilom), int(kilomLider)]
-        break
-    m+=1
+import operator
+sum = 0
+almacenes = {}
+maximoVendidoGeneral = {}
+maximoEsponencial = {}
+NAlmancenes = int(input("Ingrese el numero de almacenes que quiere analizar: "))
+opciones = ["Nombre del Almacen: ", "Producto: ", "Numero de ventas: "]
+y = 0
 
-for finalista in finalistas:
-    for (indexPago, Valorpago) in enumerate((finalistas[finalista])):
-        kilomCon = finalistas[finalista][indexPago + 1] 
-        kilomLiderCon = finalistas[finalista][indexPago + 2] 
-        if kilomCon > limite:
-             print(f"El finalista {finalista} se paso del limite con {kilomCon - limite} km demas...")    
-        else: 
-             if kilomLiderCon >= porcientoDemas:
-                operation = ((kilomCon * .25) + kilomCon) 
-                print(f"{finalista} paso los 1800 siendo lider entonces gano un porcentaje del 25% a {kilomCon}, por {operation}")
-                break
-             else:
-                operation = (kilomCon * (kilomCon - kilomLiderCon))
-                print(f"El total a pagar a {finalista} fue de: {operation}")
-        break
-               
+while y < NAlmancenes:
+    nombre = input(opciones[0])
+    almacenes[nombre] = {}
+    for q in range(2):
+        producto, NVentas = input(opciones[1]),int(input(opciones[2]))
+        maximoVendidoGeneral[producto] = NVentas
+        if len(almacenes[nombre]) < 1: almacenes[nombre] = {producto:NVentas}
+        else: almacenes[nombre][producto] = NVentas
+    y+=1        
+
+for almacen in almacenes:
+    productMax = max(almacenes[almacen].items(), key=operator.itemgetter(1))[0]
+    valueMax = max(almacenes[almacen].items(), key=operator.itemgetter(1))[1]
+    print(
+    f"""
+    --------------------------------------------------------------------------------------------------------------------------------
+    El producto que mas se vendio fueron los/as {productMax} con una cantidad de {valueMax} unidades en el almacen '''({almacen})'''
+    --------------------------------------------------------------------------------------------------------------------------------
+    """)
+    for (index,t) in enumerate(almacenes[almacen]):
+       sum += almacenes[almacen][t]
+       maximoEsponencial[almacen] = sum
+       if index == len(almacenes[almacen]) - 1: sum = 0
+    
+
+maxGeneralProducto = max(maximoVendidoGeneral.items(), key=operator.itemgetter(1))[0]
+maxGeneralProductoVentas = max(maximoVendidoGeneral.items(), key=operator.itemgetter(1))[1]
+maxGeneralArticulos = max(maximoEsponencial.items(), key=operator.itemgetter(1))[0]
+
+print(
+f"""
+----------------------------------------------------------------------------------------------------------------------
+El producto que mas se vendio en general fue: {maxGeneralProducto} con un total de {maxGeneralProductoVentas} unidades 
+----------------------------------------------------------------------------------------------------------------------
+""")
+
+print(
+    f"""
+    ---------------------------------------------------
+    El almacen que mas vendio fue: {maxGeneralArticulos}
+    ---------------------------------------------------
+    """)
