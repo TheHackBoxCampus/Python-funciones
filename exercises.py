@@ -1,49 +1,46 @@
-#Ejercicio 1
+#Ejercicio 2
+# 2. N atletas han pasado a finales en salto triple en los juegos
+# olímpicos de 2022.
 
-# 1. Campus requiere administrar algunos datos de sus Campers
-# como por ejemplo, la creación, eliminación o búsqueda de los
-# developers, entre otros, por tal razón, ha solicitado el diseño de
-# un programa que cuente con el siguiente menú como panel de
-# control:
+# Diseñe un programa que pida por teclado los nombres de cada
+# atleta finalista y a su vez, sus marcas del salto en metros.
 
-from os import system
-from time import sleep 
-from res.operations import operations_ftc
+# Informar el nombre de la atleta campeona que se quede
+# con la medalla de oro y si rompió récord, reportar el pago que
+# será de 500 millones. El récord esta en 15,50 metros.
 
-def restaure():
-    sleep(2)
-    system("cls")
-    exec_validation()
+import operator
+finalista = {}
+pos = []
 
-def program():
-    menu = input(
-    """
-    ----------------Menu-------------------
-    1.  CREAR GRUPO ARTEMIS:
-    1.1 LISTAR CAMPERS DE ARTEMIS
-    1.2 AGREGAR CAMPERS DE ARTEMIS
-    1.3 ELIMINAR CAMPERS DE ARTEMIS
-    1.4 ORDERAR ALFABETICAMENTE DE LISTA DE ARTEMIS
-    1.5 BUSCAR CAMPER EN LISTA DE ARTEMIS
-    2.  CREAR GRUPO DE SPUTNIK:
-    2.1 LISTAR CAMPERS DE SPUTNIK
-    2.2 AGREGAR CAMPERS A SPUTNIK
-    2.3 ELIMINAR CAMPERS DE SPUTNIK
-    2.4 ORDENAR ALFABETICAMENTE EN LISTA DE SPUTNIK
-    2.5 BUSCAR CAMPER EN LISTA DE SPUTNIK 
-    3.  SALIR DEL MENU
-    Digite opcion: """)
-    return menu
+class agregarPersonas:
+    def __init__(self, nombre_metros) -> str:
+        self.infoParticipante = nombre_metros
 
+    def obtenerInformacion(self):
+        nFinalistas = int(input("Numero de finalistas: "))
+        opciones = ["finalista: ", "metros: "]
+        n = len(opciones)
+        y = 0
+       
+        while y < nFinalistas:
+            for i in range(n):
+                nombre, metros = input(opciones[i]),input(opciones[(i+1)])
+                self.infoParticipante[nombre] = int(metros)
+                break
+            y+=1
 
-def exec_validation():
-    options = ["1","1.1","1.2","1.3","1.4","1.5","2","2.1","2.2","2.3","2.4","2.5","3"]
-    menuOpcion = program()
-    if menuOpcion in options:
-        operations_ftc(menuOpcion, restaure)
-    else: 
-        print("La opcion no esta disponible")
-        return restaure()
-    
-# program in curse    
-exec_validation()
+    def mostrarInformacion(self, aux):
+        for e in self.infoParticipante:
+            aux.append(self.infoParticipante[e])
+            maxValue = max(aux)
+            finallyPost = max(self.infoParticipante.items(), key=operator.itemgetter(1))[0]
+
+        if int(maxValue) >= 15.50: 
+            print(f"el jugador/a {finallyPost} rompio el record de 15.50, con un salto de {maxValue} metros")
+        else: 
+            print(f"el jugador/a que tuvo el mayor salto fue {finallyPost} con un salto de {maxValue} metros")
+
+exePrograma = agregarPersonas(finalista)
+exePrograma.obtenerInformacion()
+exePrograma.mostrarInformacion(pos)
