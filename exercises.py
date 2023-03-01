@@ -1,46 +1,47 @@
-#Ejercicio 2
-# 2. N atletas han pasado a finales en salto triple en los juegos
-# olímpicos de 2022.
+#Ejercicio 3
+# 3. En pocos días comienza la vuelta a España y la federación
+# colombiana de ciclismo, como incentivo ha determinado pagar
+# un valor adicional. El programa pedirá por teclado el sueldo
+# básico por kilometro recorrido, el número de kilómetros
+# recorridos durante toda la vuelta, numero de kilómetros
+# recorridos con la camiseta de líder.
+# Calcular el valor a pagar total, si se sabe que si recorre en la
+# bici más de 1800 kilómetros con la camiseta de líder, esos
+# kilómetros se consideran especiales y tendrán un recargo de
+# 25%.
+# El total de kilómetros por recorrer durante toda la vuelta serán
+# 3.277 kilómetros,el ganador de la vuelta a España recibirá 700
+# millones de pesos.
 
-# Diseñe un programa que pida por teclado los nombres de cada
-# atleta finalista y a su vez, sus marcas del salto en metros.
+NFinalistas = int(input("ingrese el numero de finalistas: "))
+mensajes = ["finalista: ",  "Sueldo k: ", "#kilometros R en toda La V: ", "#kilometros R como Lider: "]
+w = len(mensajes)
+opcion=[]
+limite = 3177
+porcientoDemas = 1800
+finalistas={}
+m = 0
 
-# Informar el nombre de la atleta campeona que se quede
-# con la medalla de oro y si rompió récord, reportar el pago que
-# será de 500 millones. El récord esta en 15,50 metros.
+while m < NFinalistas:
+    for q in range(0, w):
+        name, sueldo, kilom, kilomLider=input(mensajes[q]),input(mensajes[q+1]),input(mensajes[q+2]),input(mensajes[q+3])
+        finalistas[name] = [int(sueldo), int(kilom), int(kilomLider)]
+        break
+    m+=1
 
-import operator
-finalista = {}
-pos = []
-
-class agregarPersonas:
-    def __init__(self, nombre_metros) -> str:
-        self.infoParticipante = nombre_metros
-
-    def obtenerInformacion(self):
-        nFinalistas = int(input("Numero de finalistas: "))
-        opciones = ["finalista: ", "metros: "]
-        n = len(opciones)
-        y = 0
-       
-        while y < nFinalistas:
-            for i in range(n):
-                nombre, metros = input(opciones[i]),input(opciones[(i+1)])
-                self.infoParticipante[nombre] = int(metros)
-                break
-            y+=1
-
-    def mostrarInformacion(self, aux):
-        for e in self.infoParticipante:
-            aux.append(self.infoParticipante[e])
-            maxValue = max(aux)
-            finallyPost = max(self.infoParticipante.items(), key=operator.itemgetter(1))[0]
-
-        if int(maxValue) >= 15.50: 
-            print(f"el jugador/a {finallyPost} rompio el record de 15.50, con un salto de {maxValue} metros")
+for finalista in finalistas:
+    for (indexPago, Valorpago) in enumerate((finalistas[finalista])):
+        kilomCon = finalistas[finalista][indexPago + 1] 
+        kilomLiderCon = finalistas[finalista][indexPago + 2] 
+        if kilomCon > limite:
+             print(f"El finalista {finalista} se paso del limite con {kilomCon - limite} km demas...")    
         else: 
-            print(f"el jugador/a que tuvo el mayor salto fue {finallyPost} con un salto de {maxValue} metros")
-
-exePrograma = agregarPersonas(finalista)
-exePrograma.obtenerInformacion()
-exePrograma.mostrarInformacion(pos)
+             if kilomLiderCon >= porcientoDemas:
+                operation = ((kilomCon * .25) + kilomCon) 
+                print(f"{finalista} paso los 1800 siendo lider entonces gano un porcentaje del 25% a {kilomCon}, por {operation}")
+                break
+             else:
+                operation = (kilomCon * (kilomCon - kilomLiderCon))
+                print(f"El total a pagar a {finalista} fue de: {operation}")
+        break
+               
